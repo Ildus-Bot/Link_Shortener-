@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="style.css">  
+		<title>Кликк</title>
+	</head>
+	<body>
+		<main class="main">
+			<div class="main-block">
+				<div class="wrapper">			
+					<h1 class="header-word">Клик...</h1>
+	 					<div class="form-form">
+							<input type="text" id="input-text" value="" placeholder="">
+							<div class="input-texts"><p id="submit-text">Cut</p></div>
+						</div>
+						<div class="castomize-block">
+							<p>Редактор URL -</p>
+							<input type="checkbox" id="castomize-checkbox">
+							<input type="text" id="castomize-url" value="https://localhost/">
+						</div>
+					<p class="header-text">Сокращай ссылки как тебе удобно. Сервис включает функцию самостоятельного редактирования URL ссылки.</p>
+					<div class="main-blocks">
+						<p>Поддержка</p>
+						<div class="pay-block">
+							<div class="pay-cript">
+								<img class="bitcoin" src="/image/bitcoin.svg">
+								<img class="ethereum" src="/image/ethereum.svg">
+								<img class="solana" src="/image/solana.svg">
+								<img class="ton" src="/image/ton.svg">
+							</div>	
+							<div class="pay-text">
+								<p id="pay-url">1BoatSLRHtKNngkdXEeobR76b53LETtpyT</p>
+							</div>
+						</div>
+					</div>	
+					<p class="footer-text">@Клик 2022</p>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>
+<script>
+	function funcBefore () {
+		document.getElementById('input-text').value = "";
+		document.getElementById('input-text').placeholder = "Ожидание";
+
+	}
+
+	function funcSuccess (data) {
+		document.getElementById('input-text').value = data;
+		document.getElementById('input-text').placeholder = "";			
+	}
+
+	$(document).ready (function () {
+		$(".input-texts").bind("click", function () {
+			var element = document.querySelector('input[type=checkbox]'); 
+			if (element.checked) {
+				var val = document.getElementById('input-text').value;
+				var castomize_url =  document.getElementById('castomize-url').value;
+				$.ajax  ({
+					url: "handler.php",
+					type: "POST",
+					data: ({input: val, castomize: castomize_url}),
+					dataType: "html",
+					beforeSend: funcBefore,
+					success: funcSuccess
+				});
+			}
+			else {
+				var val = document.getElementById('input-text').value;
+				$.ajax  ({
+					url: "handler.php",
+					type: "POST",
+					data: ({input: val}),
+					dataType: "html",
+					beforeSend: funcBefore,
+					success: funcSuccess
+				});
+			}
+		});
+	});
+
+	$(document).ready (function () {
+		$(".bitcoin").bind("click", function () {
+			document.getElementById('pay-url').textContent = '1BoatSLRHtKNngkdXEeobR76b53LETtpyT';
+		});
+	});
+
+	$(document).ready (function () {
+		$(".ethereum").bind("click", function () {
+			document.getElementById('pay-url').textContent = "0xA8c4F57a6207965110ED4bd96A96F584e968dCbA";
+		});
+	});
+
+	$(document).ready (function () {
+		$(".solana").bind("click", function () {
+			document.getElementById('pay-url').textContent = "8fFZULkpBYj18bjNAWKd3iksH72wYCpcLBsNYh8JeFiE";
+		});
+	});
+
+	$(document).ready (function () {
+		$(".ton").bind("click", function () {
+			document.getElementById('pay-url').textContent = "EQBC1OrKoPKEHW3etm4rxShOIdKnJlc7XsGsp-meQlv273dq";
+		});
+	});
+
+
+</script>
